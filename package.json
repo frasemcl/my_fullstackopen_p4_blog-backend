@@ -1,0 +1,27 @@
+{
+  "name": "my_fullstackopen_p4_blog-backend",
+  "version": "1.0.0",
+  "description": "MERN stack blog post app.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frasemcl/my_fullstackopen_p4_blog-backend.git"
+  },
+  "author": "Fraser McLaughlin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frasemcl/my_fullstackopen_p4_blog-backend/issues"
+  },
+  "homepage": "https://github.com/frasemcl/my_fullstackopen_p4_blog-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongoose": "^6.8.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
