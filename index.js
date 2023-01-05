@@ -1,8 +1,11 @@
-const http = require('http');
+require('dotenv').config();
+// const http = require('http');
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
+
+mongoose.set('strictQuery', false);
 
 const blogSchema = new mongoose.Schema({
 	title: String,
@@ -13,7 +16,7 @@ const blogSchema = new mongoose.Schema({
 
 const Blog = mongoose.model('Blog', blogSchema);
 
-const mongoUrl = 'mongodb://localhost/bloglist';
+const mongoUrl = process.env.MONGODB_URI;
 mongoose.connect(mongoUrl);
 
 app.use(cors());
