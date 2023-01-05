@@ -1,3 +1,6 @@
 {
-	"dotenv.enableAutocloaking": false
+	"dotenv.enableAutocloaking": false,
+	"prettier.semi": false,
+	"prettier.tabWidth": 2,
+	"prettier.useTabs": false
 }
