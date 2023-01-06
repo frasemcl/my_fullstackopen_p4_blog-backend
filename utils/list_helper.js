@@ -1,4 +1,4 @@
-// var _ = require('lodash/core')
+// var _ = require('lodash')
 
 const dummy = blogs => {
   console.log(blogs)
@@ -25,6 +25,9 @@ const favoriteBlog = blogs => {
 const mostBlogs = blogs => {
   let authors = []
   blogs.map(blog => authors.push(blog.author))
+  //   const test = _.groupBy(authors, author => author)
+  //   return test
+  // Got lost trying lodash and did this:
   let counts = {}
   for (const author of authors) {
     counts[author] = counts[author] ? counts[author] + 1 : 1
@@ -43,13 +46,21 @@ const mostBlogs = blogs => {
 }
 
 const mostLikes = blogs => {
-  let authors = []
-  blogs.map(blog =>
-    authors.indexOf(blog.author) === -1
-      ? authors.push(blog.author)
-      : console.log(authors)
+  let authorLikes = []
+  for (const blog of blogs) {
+    // Ended up here again: https://stackoverflow.com/questions/17781472/how-to-get-a-subset-of-a-javascript-objects-properties
+    const sel = (({ author, likes }) => ({ author, likes }))(blog)
+    const exists = authorLikes.findIndex(el => el.author === sel.author)
+    if (exists === -1) {
+      authorLikes.push(sel)
+    } else {
+      authorLikes[exists].likes += sel.likes
+    }
+  }
+  let maxLikes = authorLikes.reduce((max, post) =>
+    max.likes > post.likes ? max : post
   )
-  return authors
+  return maxLikes
 }
 
 module.exports = {
