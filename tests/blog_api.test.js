@@ -10,14 +10,20 @@ const Blog = require('../models/blog')
 // Uses mongoose
 beforeEach(async () => {
   await Blog.deleteMany({})
-  let blogObject = new Blog(helper.initialBlogs[0])
-  await blogObject.save()
-  blogObject = new Blog(helper.initialBlogs[1])
-  await blogObject.save()
+  console.log('cleared')
+
+  // a better way of saving multiple objects to the database:
+  helper.initialBlogs.forEach(async blog => {
+    let blogObject = new Blog(blog)
+    await blogObject.save()
+    console.log('saved')
+  })
+  console.log('done')
 })
 
 // The tests
 test('blog posts are returned as json', async () => {
+  console.log('entered test')
   await api
     .get('/api/blogs')
     .expect(200)
@@ -37,12 +43,6 @@ test('a valid blog post can be added', async () => {
     .send(newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/)
-
-  // Test before helper:
-  // const response = await api.get('/api/blogs')
-  // const titles = response.body.map(r => r.title)
-  // expect(response.body).toHaveLength(helper.initialBlogs.length + 1)
-  // expect(titles).toContain('Hello from test')
 
   const blogsAtEnd = await helper.blogsInDb()
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
