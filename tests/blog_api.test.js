@@ -6,19 +6,13 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 
 // Clear the test database and add the initial posts
-// Need to think about this some more, how the database connection is called here
-// Uses mongoose
 beforeEach(async () => {
   await Blog.deleteMany({})
-  console.log('cleared')
-
-  // a better way of saving multiple objects to the database:
-  helper.initialBlogs.forEach(async blog => {
+  // Promise.all executes the promises it receives in parallel. If the promises need to be executed in a particular order, this will be problematic. In situations like this, the operations can be executed inside of a for...of block, that guarantees a specific execution order.
+  for (let blog of helper.initialBlogs) {
     let blogObject = new Blog(blog)
     await blogObject.save()
-    console.log('saved')
-  })
-  console.log('done')
+  }
 })
 
 // The tests
