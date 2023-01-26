@@ -2,7 +2,7 @@ The following command only runs the tests found in the tests/note_api.test.js fi
 npm test -- tests/blog_api.test.js
 
 The -t option can be used for running tests with a specific name:
-npm test -- -t 'a specific blog post title is within the returned post titles'
+npm test -- -t 'testName'
 
 The provided parameter can refer to the name of the test or the describe block. The parameter can also contain just a part of the name. The following command will run all of the tests that contain blog in their name:
 npm test -- -t 'blog'

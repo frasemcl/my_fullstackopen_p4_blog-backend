@@ -83,7 +83,7 @@ describe('total likes', () => {
     expect(result).toBe(5)
   })
 
-  test('of a bigger list is calculated right', () => {
+  test('likes of a bigger list is calculated right', () => {
     const result = listHelper.totalLikes(biggerBlogList)
     expect(result).toBe(7 + 5 + 12 + 10 + 0 + 2)
   })

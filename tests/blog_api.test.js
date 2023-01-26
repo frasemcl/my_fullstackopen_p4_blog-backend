@@ -73,6 +73,12 @@ test('a specific blog post title is within the returned post titles', async () =
   expect(titles).toContain('Im still here')
 })
 
+// ex4.9 - I'm considering this an api test but maybe should move it to list_helper tests?
+test('the unique identifier property of the blog posts is named id', async () => {
+  const response = await api.get('/api/blogs')
+  expect(response.body[0].id).toBeDefined()
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
