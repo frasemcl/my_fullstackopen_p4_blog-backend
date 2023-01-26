@@ -24,6 +24,7 @@ test('blog posts are returned as json', async () => {
     .expect('Content-Type', /application\/json/)
 }, 100000)
 
+// exercise 4.10
 test('a valid blog post can be added', async () => {
   const newBlog = {
     title: 'Hello from test',
