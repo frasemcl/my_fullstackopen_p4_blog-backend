@@ -45,6 +45,23 @@ test('a valid blog post can be added', async () => {
   expect(titles).toContain('Hello from test')
 })
 
+// ex 4.11
+test('a post without likes gets zero likes', async () => {
+  const newBlog = {
+    title: 'no likes post from test',
+    author: 'poster',
+    url: 'zerolikes.com',
+  }
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+  const blogsAtEnd = await helper.blogsInDb()
+  const found = blogsAtEnd.find(element => element.url === 'zerolikes.com')
+  expect(found.likes).toEqual(0)
+})
+
 test('blog post without title is not added', async () => {
   const newBlog = {
     author: 'frasemcl',
@@ -74,7 +91,7 @@ test('a specific blog post title is within the returned post titles', async () =
   expect(titles).toContain('Im still here')
 })
 
-// ex4.9 - I'm considering this an api test but maybe should move it to list_helper tests?
+// ex4.9 - I'm considering this an api test
 test('the unique identifier property of the blog posts is named id', async () => {
   const response = await api.get('/api/blogs')
   expect(response.body[0].id).toBeDefined()
