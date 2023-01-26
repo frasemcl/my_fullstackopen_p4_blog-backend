@@ -62,18 +62,22 @@ test('a post without likes gets zero likes', async () => {
   expect(found.likes).toEqual(0)
 })
 
-test('blog post without title is not added', async () => {
-  const newBlog = {
-    author: 'frasemcl',
+// ex 4.12 TODO -- why my response is 500 and course notes show 400 without explicitly changing the except block in blogs.js?
+test('missing title or url, backend responds with 400 bad request', async () => {
+  const missingTitle = {
+    author: 'missing title test',
     url: 'test.com',
     likes: 1000,
   }
+  const missingURL = {
+    title: 'missing URL test',
+    author: 'frasemcl',
+    likes: 1000,
+  }
 
-  // Revisit why my response is 500 and course notes show 400 when required field is missing
-  await api.post('/api/blogs').send(newBlog).expect(500)
+  await api.post('/api/blogs').send(missingTitle).expect(400)
+  await api.post('/api/blogs').send(missingURL).expect(400)
 
-  // const response = await api.get('/api/blogs')
-  // expect(response.body).toHaveLength(helper.initialBlogs.length)
   const blogsAtEnd = await helper.blogsInDb()
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
 })
