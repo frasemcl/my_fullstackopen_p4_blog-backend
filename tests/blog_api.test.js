@@ -95,7 +95,7 @@ test('a specific blog post title is within the returned post titles', async () =
   expect(titles).toContain('Im still here')
 })
 
-// ex4.9 - I'm considering this an api test
+// ex4.9
 test('the unique identifier property of the blog posts is named id', async () => {
   const response = await api.get('/api/blogs')
   expect(response.body[0].id).toBeDefined()
@@ -116,6 +116,26 @@ describe('deletion of a blog post', () => {
     const ids = blogsAtEnd.map(r => r.id)
 
     expect(ids).not.toContain(blogToDelete.id)
+  })
+})
+
+describe('edit a blog post', () => {
+  test('succeeds with status code 200 if update succeeds', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[0]
+
+    const updateBlog = {
+      title: blogToUpdate.title,
+      author: blogToUpdate.author,
+      url: blogToUpdate.url,
+      likes: blogToUpdate.likes + 1,
+    }
+
+    await api.put(`/api/blogs/${blogToUpdate.id}`).send(updateBlog).expect(200)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    expect(blogsAtEnd[0].likes).toEqual(blogsAtStart[0].likes + 1)
   })
 })
 
