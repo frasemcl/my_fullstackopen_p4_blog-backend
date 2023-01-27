@@ -101,6 +101,24 @@ test('the unique identifier property of the blog posts is named id', async () =>
   expect(response.body[0].id).toBeDefined()
 })
 
+// Works with ID, but think about this more. Risk using 'title' for expect not to contain is: what if two posts have the same title?
+describe('deletion of a blog post', () => {
+  test('succeeds with status code 204 if id is valid', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1)
+
+    const ids = blogsAtEnd.map(r => r.id)
+
+    expect(ids).not.toContain(blogToDelete.id)
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
