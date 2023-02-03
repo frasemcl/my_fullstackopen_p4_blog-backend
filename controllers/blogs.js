@@ -1,4 +1,5 @@
 const blogsRouter = require('express').Router()
+const jwt = require('jsonwebtoken')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
@@ -7,9 +8,23 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
+// There are several ways of sending the token from the browser to the server. We will use the Authorization header. The header also tells which authentication scheme is used.
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.startsWith('Bearer ')) {
+    return authorization.replace('Bearer ', '')
+  }
+  return null
+}
+
 blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
-  const user = await User.findById(body.userId)
+  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+  const user = await User.findById(decodedToken.id)
+  // const user = await User.findById(body.userId)
 
   const blog = new Blog({
     title: body.title,
@@ -21,6 +36,7 @@ blogsRouter.post('/', async (request, response, next) => {
 
   // Added try/catch to 'solve' ex4.12, but advice on if this is correct would be helpful
   // Was throwing 500 error otherwise
+  // Is it because of utils/middleware.js in the demo app?
   try {
     const savedBlog = await blog.save()
     // It's worth noting that the user object also changes. The id of the blog is stored in the blogs field:
