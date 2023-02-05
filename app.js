@@ -8,11 +8,13 @@ const blogsRouter = require('./controllers/blogs')
 const usersRouter = require('./controllers/users')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
+const middleware = require('./utils/middleware')
 
 logger.info('connecting to', config.MONGODB_URI)
 
 mongoose.set('strictQuery', false)
 
+// TODO change this to async await
 mongoose
   .connect(config.MONGODB_URI)
   .then(() => {
@@ -24,6 +26,8 @@ mongoose
 
 app.use(cors())
 app.use(express.json())
+
+app.use(middleware.tokenExtractor)
 
 app.use('/api/login', loginRouter)
 app.use('/api/blogs', blogsRouter)

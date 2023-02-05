@@ -1,9 +1,9 @@
 POST http://localhost:3003/api/blogs/ HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZyYXNlbWNsIiwiaWQiOiI2M2RkMjMyZmFmYzQxZmE5ZDdhMDFmM2QiLCJpYXQiOjE2NzU0NTM5MDN9.zi67kua2Lpo4xTBfO4VWG5VGI4VWggbmB7OVWojhz-c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZyYXNlbWNsIiwiaWQiOiI2M2RkMjMyZmFmYzQxZmE5ZDdhMDFmM2QiLCJpYXQiOjE2NzU2MzQxMzF9.aQH2Z5Lk9gCc94aLRQWkZD8hDcW7f_gR1iyZphJFQ1Y
 
 {
-	"title": "test with auth token",
+	"title": "test with auth token from middleware",
 	"author": "frasemcl",
 	"url": "google.com",
 	"likes": 111
