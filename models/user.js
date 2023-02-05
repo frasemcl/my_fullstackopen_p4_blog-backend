@@ -5,10 +5,15 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    unique: true,
+    minLength: 3,
+    uniqe: true,
   },
   name: String,
-  passwordHash: String,
+  // Req minLength for pw logic is in the controller
+  passwordHash: {
+    type: String,
+    required: true,
+  },
   blogs: [
     {
       type: mongoose.Schema.Types.ObjectId,
